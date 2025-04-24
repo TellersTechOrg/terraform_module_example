@@ -1,0 +1,28 @@
+name: Terraform CI
+
+on: 
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.13.4
+
+    - name: Terraform fmt
+      id: fmt
+      run: terraform fmt
+
+    - name: Terraform init
+      id: init
+      run: terraform init
+
+    - name: Terraform Validate
+      id: validate
+      run: terraform validate -no-color
